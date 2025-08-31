@@ -1,0 +1,175 @@
+ Downloading crates ...
+  Downloaded rust_decimal_macros v1.37.1
+   Compiling indexmap v2.11.0
+   Compiling barter-macro v0.2.0 (/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-macro)
+   Compiling rust_decimal_macros v1.37.1
+   Compiling barter-integration v0.9.2 (/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-integration)
+   Compiling barter-data v0.10.2 (/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data)
+error[E0277]: the trait bound `Okx: StreamSelector<MarketDataInstrument, OrderBooksL1>` is not satisfied
+   --> barter-data/examples/test_all_exchanges.rs:107:14
+    |
+107 |             .subscribe([
+    |              ^^^^^^^^^ unsatisfied trait bound
+    |
+    = help: the trait `StreamSelector<MarketDataInstrument, barter_data::subscription::book::OrderBooksL1>` is not implemented for `barter_data::exchange::okx::Okx`
+            but trait `StreamSelector<MarketDataInstrument, barter_data::subscription::trade::PublicTrades>` is implemented for it
+    = help: for that trait implementation, expected `barter_data::subscription::trade::PublicTrades`, found `barter_data::subscription::book::OrderBooksL1`
+note: required by a bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+   --> /var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data/src/streams/builder/mod.rs:81:19
+    |
+77  |     pub fn subscribe<SubIter, Sub, Exchange, Instrument>(mut self, subscriptions: SubIter) -> Self
+    |            --------- required by a bound in this associated function
+...
+81  |         Exchange: StreamSelector<Instrument, Kind> + Ord + Send + Sync + 'static,
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+    = note: the full name for the type has been written to '/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/target/debug/examples/test_all_exchanges-31f48ad66dc97f8e.long-type-3747928963214966793.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `Subscription<Okx, MarketDataInstrument, OrderBooksL1>: Identifier<...>` is not satisfied
+   --> barter-data/examples/test_all_exchanges.rs:107:14
+    |
+107 |             .subscribe([
+    |              ^^^^^^^^^ the trait `barter_data::Identifier<OkxChannel>` is not implemented for `Subscription<Okx, MarketDataInstrument, OrderBooksL1>`
+    |
+    = help: the following other types implement trait `barter_data::Identifier<T>`:
+              `Subscription<Binance<BinanceServerFuturesUsd>, Instrument, barter_data::subscription::liquidation::Liquidations>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Instrument, barter_data::subscription::book::OrderBooksL1>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Instrument, barter_data::subscription::book::OrderBooksL2>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Instrument, barter_data::subscription::trade::PublicTrades>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Keyed<InstrumentKey, MarketDataInstrument>, Kind>` implements `barter_data::Identifier<BinanceMarket>`
+              `Subscription<Binance<Server>, MarketDataInstrument, Kind>` implements `barter_data::Identifier<BinanceMarket>`
+              `Subscription<Binance<Server>, MarketInstrumentData<InstrumentKey>, Kind>` implements `barter_data::Identifier<BinanceMarket>`
+              `Subscription<Bybit<Server>, Instrument, barter_data::subscription::book::OrderBooksL1>` implements `barter_data::Identifier<BybitChannel>`
+            and 30 others
+note: required by a bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+   --> /var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data/src/streams/builder/mod.rs:87:13
+    |
+77  |     pub fn subscribe<SubIter, Sub, Exchange, Instrument>(mut self, subscriptions: SubIter) -> Self
+    |            --------- required by a bound in this associated function
+...
+87  |             Identifier<Exchange::Channel> + Identifier<Exchange::Market>,
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+    = note: the full name for the type has been written to '/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/target/debug/examples/test_all_exchanges-31f48ad66dc97f8e.long-type-15755688321776036118.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `Okx: StreamSelector<MarketDataInstrument, OrderBooksL1>` is not satisfied
+   --> barter-data/examples/test_all_exchanges.rs:111:14
+    |
+111 |             .subscribe([
+    |              ^^^^^^^^^ unsatisfied trait bound
+    |
+    = help: the trait `StreamSelector<MarketDataInstrument, barter_data::subscription::book::OrderBooksL1>` is not implemented for `barter_data::exchange::okx::Okx`
+            but trait `StreamSelector<MarketDataInstrument, barter_data::subscription::trade::PublicTrades>` is implemented for it
+    = help: for that trait implementation, expected `barter_data::subscription::trade::PublicTrades`, found `barter_data::subscription::book::OrderBooksL1`
+note: required by a bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+   --> /var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data/src/streams/builder/mod.rs:81:19
+    |
+77  |     pub fn subscribe<SubIter, Sub, Exchange, Instrument>(mut self, subscriptions: SubIter) -> Self
+    |            --------- required by a bound in this associated function
+...
+81  |         Exchange: StreamSelector<Instrument, Kind> + Ord + Send + Sync + 'static,
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+    = note: the full name for the type has been written to '/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/target/debug/examples/test_all_exchanges-31f48ad66dc97f8e.long-type-3747928963214966793.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `Subscription<Okx, MarketDataInstrument, OrderBooksL1>: Identifier<...>` is not satisfied
+   --> barter-data/examples/test_all_exchanges.rs:111:14
+    |
+111 |             .subscribe([
+    |              ^^^^^^^^^ the trait `barter_data::Identifier<OkxChannel>` is not implemented for `Subscription<Okx, MarketDataInstrument, OrderBooksL1>`
+    |
+    = help: the following other types implement trait `barter_data::Identifier<T>`:
+              `Subscription<Binance<BinanceServerFuturesUsd>, Instrument, barter_data::subscription::liquidation::Liquidations>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Instrument, barter_data::subscription::book::OrderBooksL1>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Instrument, barter_data::subscription::book::OrderBooksL2>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Instrument, barter_data::subscription::trade::PublicTrades>` implements `barter_data::Identifier<BinanceChannel>`
+              `Subscription<Binance<Server>, Keyed<InstrumentKey, MarketDataInstrument>, Kind>` implements `barter_data::Identifier<BinanceMarket>`
+              `Subscription<Binance<Server>, MarketDataInstrument, Kind>` implements `barter_data::Identifier<BinanceMarket>`
+              `Subscription<Binance<Server>, MarketInstrumentData<InstrumentKey>, Kind>` implements `barter_data::Identifier<BinanceMarket>`
+              `Subscription<Bybit<Server>, Instrument, barter_data::subscription::book::OrderBooksL1>` implements `barter_data::Identifier<BybitChannel>`
+            and 30 others
+note: required by a bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+   --> /var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data/src/streams/builder/mod.rs:87:13
+    |
+77  |     pub fn subscribe<SubIter, Sub, Exchange, Instrument>(mut self, subscriptions: SubIter) -> Self
+    |            --------- required by a bound in this associated function
+...
+87  |             Identifier<Exchange::Channel> + Identifier<Exchange::Market>,
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `StreamBuilder::<InstrumentKey, Kind>::subscribe`
+    = note: the full name for the type has been written to '/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/target/debug/examples/test_all_exchanges-31f48ad66dc97f8e.long-type-15755688321776036118.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0308]: mismatched types
+   --> barter-data/examples/test_all_exchanges.rs:158:25
+    |
+157 |                     match event {
+    |                           ----- this expression has type `barter_data::streams::reconnect::Event<ExchangeId, MarketEvent>`
+158 |                         Ok(market_event) => {
+    |                         ^^^^^^^^^^^^^^^^ expected `Event<ExchangeId, MarketEvent>`, found `Result<_, _>`
+    |
+    = note: expected enum `barter_data::streams::reconnect::Event<ExchangeId, MarketEvent>`
+               found enum `Result<_, _>`
+
+error[E0308]: mismatched types
+   --> barter-data/examples/test_all_exchanges.rs:239:25
+    |
+157 |                     match event {
+    |                           ----- this expression has type `barter_data::streams::reconnect::Event<ExchangeId, MarketEvent>`
+...
+239 |                         Err(e) => {
+    |                         ^^^^^^ expected `Event<ExchangeId, MarketEvent>`, found `Result<_, _>`
+    |
+    = note: expected enum `barter_data::streams::reconnect::Event<ExchangeId, MarketEvent>`
+               found enum `Result<_, _>`
+
+error[E0609]: no field `quantity` on type `PublicTrade`
+   --> barter-data/examples/test_all_exchanges.rs:198:55
+    |
+198 | ...                   trade.quantity
+    |                             ^^^^^^^^ unknown field
+    |
+    = note: available fields are: `id`, `price`, `amount`, `side`
+
+error[E0609]: no field `ask` on type `barter_data::subscription::book::OrderBookL1`
+   --> barter-data/examples/test_all_exchanges.rs:210:63
+    |
+210 | ...                   let spread = book.ask.price - book.bid.price;
+    |                                         ^^^ unknown field
+    |
+    = note: available fields are: `last_update_time`, `best_bid`, `best_ask`
+
+error[E0609]: no field `bid` on type `barter_data::subscription::book::OrderBookL1`
+   --> barter-data/examples/test_all_exchanges.rs:210:80
+    |
+210 | ...                   let spread = book.ask.price - book.bid.price;
+    |                                                          ^^^ unknown field
+    |
+    = note: available fields are: `last_update_time`, `best_bid`, `best_ask`
+
+error[E0609]: no field `bid` on type `barter_data::subscription::book::OrderBookL1`
+   --> barter-data/examples/test_all_exchanges.rs:211:77
+    |
+211 | ...                   let spread_pct = (spread / book.bid.price) * 100.0;
+    |                                                       ^^^ unknown field
+    |
+    = note: available fields are: `last_update_time`, `best_bid`, `best_ask`
+
+error[E0609]: no field `bid` on type `barter_data::subscription::book::OrderBookL1`
+   --> barter-data/examples/test_all_exchanges.rs:218:54
+    |
+218 | ...                   book.bid.price,
+    |                            ^^^ unknown field
+    |
+    = note: available fields are: `last_update_time`, `best_bid`, `best_ask`
+
+error[E0609]: no field `ask` on type `barter_data::subscription::book::OrderBookL1`
+   --> barter-data/examples/test_all_exchanges.rs:219:54
+    |
+219 | ...                   book.ask.price,
+    |                            ^^^ unknown field
+    |
+    = note: available fields are: `last_update_time`, `best_bid`, `best_ask`
+
+Some errors have detailed explanations: E0277, E0308, E0609.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `barter-data` (example "test_all_exchanges") due to 12 previous errors
