@@ -1,0 +1,247 @@
+   Compiling barter-data v0.10.2 (/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data)
+warning: unused import: `futures::BybitPerpetualsUsd`
+  --> barter-data/examples/monitor_demo.rs:12:17
+   |
+12 |         bybit::{futures::BybitPerpetualsUsd, spot::BybitSpot},
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: fields `timestamp`, `symbol`, and `market_type` are never read
+  --> barter-data/examples/monitor_demo.rs:54:5
+   |
+53 | struct MarketDataPoint {
+   |        --------------- fields in this struct
+54 |     timestamp: DateTime<Utc>,
+   |     ^^^^^^^^^
+...
+58 |     symbol: String,
+   |     ^^^^^^
+59 |     market_type: String,
+   |     ^^^^^^^^^^^
+   |
+   = note: `MarketDataPoint` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `barter-data` (example "monitor_demo") generated 2 warnings (run `cargo fix --example "monitor_demo"` to apply 1 suggestion)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 11.96s
+     Running `target/debug/examples/monitor_demo`
+
+🚀 启动加密货币实时监控系统
+===================================
+监控交易所: Binance, OKX, Bybit
+监控币种: BTC/USDT, ETH/USDT
+功能: 价格监控, 成交量分析, 异常检测
+===================================
+
+[2m2025-08-31T14:01:40.099895Z[0m [32m INFO[0m [2mmonitor_demo[0m[2m:[0m 初始化交易所数据流...
+[2m2025-08-31T14:01:40.100385Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mBinanceSpot [3msubscriptions[0m[2m=[0m(btc_usdt_spot, public_trades),(eth_usdt_spot, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-BinanceSpot-public_trades
+[2m2025-08-31T14:01:40.100686Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mBinanceSpot [3murl[0m[2m=[0mwss://stream.binance.com:9443/ws [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.100770Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("stream.binance.com")), port: Some(9443), path: "/ws", query: None, fragment: None }
+[2m2025-08-31T14:01:40.101382Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mBinanceFuturesUsd [3msubscriptions[0m[2m=[0m(btc_usdt_perpetual, public_trades),(eth_usdt_perpetual, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-BinanceFuturesUsd-public_trades
+[2m2025-08-31T14:01:40.101483Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mBinanceFuturesUsd [3murl[0m[2m=[0mwss://fstream.binance.com/ws [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.101520Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("fstream.binance.com")), port: None, path: "/ws", query: None, fragment: None }
+[2m2025-08-31T14:01:40.101777Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mOkx [3msubscriptions[0m[2m=[0m(btc_usdt_spot, public_trades),(eth_usdt_spot, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-Okx-public_trades
+[2m2025-08-31T14:01:40.101889Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mOkx [3murl[0m[2m=[0mwss://ws.okx.com:8443/ws/v5/public [3msubscriptions[0m[2m=[0m[Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.101937Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("ws.okx.com")), port: Some(8443), path: "/ws/v5/public", query: None, fragment: None }
+[2m2025-08-31T14:01:40.102184Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mBybitSpot [3msubscriptions[0m[2m=[0m(btc_usdt_spot, public_trades),(eth_usdt_spot, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-BybitSpot-public_trades
+[2m2025-08-31T14:01:40.102287Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mBybitSpot [3murl[0m[2m=[0mwss://stream.bybit.com/v5/public/spot [3msubscriptions[0m[2m=[0m[Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.102320Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("stream.bybit.com")), port: None, path: "/v5/public/spot", query: None, fragment: None }
+[2m2025-08-31T14:01:40.293209Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-08-31T14:01:40.293364Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mBinanceFuturesUsd [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.293488Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mBinanceFuturesUsd [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"id\":1,\"method\":\"SUBSCRIBE\",\"params\":[\"btcusdt@trade\",\"ethusdt@trade\"]}"))
+[2m2025-08-31T14:01:40.337245Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-08-31T14:01:40.337332Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mBinanceSpot [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.337453Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mBinanceSpot [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"id\":1,\"method\":\"SUBSCRIBE\",\"params\":[\"btcusdt@trade\",\"ethusdt@trade\"]}"))
+[2m2025-08-31T14:01:40.456649Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mBinanceFuturesUsd [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m1 [3mpayload[0m[2m=[0mBinanceSubResponse { result: None, id: 1 }
+[2m2025-08-31T14:01:40.456701Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mBinanceFuturesUsd
+[2m2025-08-31T14:01:40.456723Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mBinanceFuturesUsd
+[2m2025-08-31T14:01:40.457093Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-BinanceFuturesUsd-public_trades
+[2m2025-08-31T14:01:40.500805Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mBinanceSpot [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m1 [3mpayload[0m[2m=[0mBinanceSubResponse { result: None, id: 1 }
+[2m2025-08-31T14:01:40.500856Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mBinanceSpot
+[2m2025-08-31T14:01:40.500877Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mBinanceSpot
+[2m2025-08-31T14:01:40.501170Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-BinanceSpot-public_trades
+[2m2025-08-31T14:01:40.513359Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-08-31T14:01:40.513481Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mOkx [3msubscriptions[0m[2m=[0m[Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.513595Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mOkx [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"args\":[{\"channel\":\"trades\",\"instId\":\"BTC-USDT\"},{\"channel\":\"trades\",\"instId\":\"ETH-USDT\"}],\"op\":\"subscribe\"}"))
+[2m2025-08-31T14:01:40.584184Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-08-31T14:01:40.584271Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mBybitSpot [3msubscriptions[0m[2m=[0m[Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-08-31T14:01:40.584370Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"args\":[\"publicTrade.BTCUSDT\",\"publicTrade.ETHUSDT\"],\"op\":\"subscribe\"}"))
+[2m2025-08-31T14:01:40.635404Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mOkx [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m2 [3mpayload[0m[2m=[0mSubscribed
+[2m2025-08-31T14:01:40.635504Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mOkx [3msuccess_responses[0m[2m=[0m2 [3mexpected_responses[0m[2m=[0m2 [3mpayload[0m[2m=[0mSubscribed
+[2m2025-08-31T14:01:40.635535Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mOkx
+[2m2025-08-31T14:01:40.635555Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mOkx
+[2m2025-08-31T14:01:40.635750Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-Okx-public_trades
+[2m2025-08-31T14:01:40.636991Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mOkx [3mpayload[0m[2m=[0mping
+[2m2025-08-31T14:01:40.704808Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mBybitSpot [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m1 [3mpayload[0m[2m=[0mBybitResponse { success: true, ret_msg: Subscribe }
+[2m2025-08-31T14:01:40.704857Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mBybitSpot
+[2m2025-08-31T14:01:40.704878Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mBybitSpot
+[2m2025-08-31T14:01:40.705043Z[0m [32m INFO[0m [2mmonitor_demo[0m[2m:[0m ✅ 数据流初始化成功，开始监控...
+
+[2m2025-08-31T14:01:40.705345Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-BybitSpot-public_trades
+
+================== 监控系统报告 ==================
+运行时间: 0 秒 | 总事件数: 2 | 速率: inf 事件/秒
+--------------------------------------------------
+📈 ETH/USDT - 价格: $4467.49 | 成交量: 2.4930 | 交易数: 2 | 波动率: 0.000% | 异常: 0
+==================================================
+
+[2m2025-08-31T14:01:40.706659Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0m{"op":"ping"}
+[2m2025-08-31T14:01:40.751153Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("expected value", line: 1, column: 1) [3mpayload[0m[2m=[0mUtf8Bytes(b"pong") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-08-31T14:01:40.751440Z[0m [31mERROR[0m [2mmonitor_demo[0m[2m:[0m 流错误: Socket("Deserialising JSON error: expected value at line 1 column 1 for payload: pong")
+[2m2025-08-31T14:01:40.838433Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("missing field `subscription_id`", line: 1, column: 94) [3mpayload[0m[2m=[0mUtf8Bytes(b"{\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"8f15a91b-ff8a-4803-9503-76573d7a3b97\",\"op\":\"ping\"}") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-08-31T14:01:40.838963Z[0m [31mERROR[0m [2mmonitor_demo[0m[2m:[0m 流错误: Socket("Deserialising JSON error: missing field `subscription_id` at line 1 column 94 for payload: {\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"8f15a91b-ff8a-4803-9503-76573d7a3b97\",\"op\":\"ping\"}")
+[2m2025-08-31T14:01:41.347154Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0670 (平均值的 3.4倍)
+[2m2025-08-31T14:01:41.412190Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.1061 (平均值的 2123.0倍)
+[2m2025-08-31T14:01:41.412507Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0800 (平均值的 7.5倍)
+[2m2025-08-31T14:01:41.412622Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.1060 (平均值的 5.3倍)
+[2m2025-08-31T14:01:41.632577Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.1180 (平均值的 6.5倍)
+[2m2025-08-31T14:01:41.910976Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.1077 (平均值的 3.4倍)
+[2m2025-08-31T14:01:42.022765Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.2920 (平均值的 7.5倍)
+[2m2025-08-31T14:01:42.023503Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.5010 (平均值的 4.8倍)
+[2m2025-08-31T14:01:42.039307Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.4990 (平均值的 3.2倍)
+[2m2025-08-31T14:01:42.055054Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2760 (平均值的 4.3倍)
+[2m2025-08-31T14:01:42.056705Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2270 (平均值的 5.4倍)
+[2m2025-08-31T14:01:42.063345Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.3910 (平均值的 13.7倍)
+[2m2025-08-31T14:01:42.078358Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.3071 (平均值的 19.5倍)
+[2m2025-08-31T14:01:42.078445Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.9849 (平均值的 5.6倍)
+[2m2025-08-31T14:01:42.088182Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.0000 (平均值的 3.7倍)
+[2m2025-08-31T14:01:42.111794Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1204 (平均值的 7.8倍)
+[2m2025-08-31T14:01:42.111933Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0300 (平均值的 13.6倍)
+[2m2025-08-31T14:01:42.112023Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0160 (平均值的 3.1倍)
+[2m2025-08-31T14:01:42.112077Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.0000 (平均值的 84.1倍)
+[2m2025-08-31T14:01:42.112160Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.4439 (平均值的 10.9倍)
+[2m2025-08-31T14:01:42.115877Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0310 (平均值的 5.6倍)
+[2m2025-08-31T14:01:42.121105Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0054 (平均值的 107.2倍)
+[2m2025-08-31T14:01:42.121331Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0023 (平均值的 3.9倍)
+[2m2025-08-31T14:01:42.121822Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0082 (平均值的 10.1倍)
+[2m2025-08-31T14:01:42.126177Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0092 (平均值的 139.8倍)
+[2m2025-08-31T14:01:42.157502Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.9048 (平均值的 21.1倍)
+[2m2025-08-31T14:01:42.157648Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit BTC/USDT 成交量 0.0950 (平均值的 97.0倍)
+[2m2025-08-31T14:01:42.452054Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.5990 (平均值的 22.6倍)
+[2m2025-08-31T14:01:42.452195Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 8.9460 (平均值的 33.1倍)
+[2m2025-08-31T14:01:42.529439Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1832 (平均值的 5.5倍)
+[2m2025-08-31T14:01:42.538809Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 7.0748 (平均值的 141.5倍)
+[2m2025-08-31T14:01:42.539352Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2925 (平均值的 9.6倍)
+[2m2025-08-31T14:01:42.539939Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2250 (平均值的 6.5倍)
+[2m2025-08-31T14:01:42.540070Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.8614 (平均值的 34.7倍)
+[2m2025-08-31T14:01:42.541229Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.5970 (平均值的 11.4倍)
+[2m2025-08-31T14:01:42.544078Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.6760 (平均值的 42.2倍)
+[2m2025-08-31T14:01:42.596147Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.6830 (平均值的 225.5倍)
+[2m2025-08-31T14:01:42.691971Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.2080 (平均值的 188.6倍)
+[2m2025-08-31T14:01:42.717932Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m ⚠️ 价格异常警报！Binance ETH/USDT 价格变化 100.00% ($4469.89 -> $0.00)
+[2m2025-08-31T14:01:42.761103Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.5593 (平均值的 3.7倍)
+[2m2025-08-31T14:01:42.919781Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.6980 (平均值的 4.7倍)
+[2m2025-08-31T14:01:42.951850Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.1500 (平均值的 26.6倍)
+[2m2025-08-31T14:01:42.952127Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.6830 (平均值的 10.3倍)
+[2m2025-08-31T14:01:42.952284Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.0000 (平均值的 3.6倍)
+[2m2025-08-31T14:01:42.969962Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1110 (平均值的 3.9倍)
+[2m2025-08-31T14:01:42.987166Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1198 (平均值的 5.8倍)
+[2m2025-08-31T14:01:42.998488Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.6806 (平均值的 144.6倍)
+[2m2025-08-31T14:01:43.098141Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.5720 (平均值的 5.4倍)
+[2m2025-08-31T14:01:43.249838Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0820 (平均值的 3.6倍)
+[2m2025-08-31T14:01:43.393990Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.2000 (平均值的 6.5倍)
+[2m2025-08-31T14:01:43.456082Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0305 (平均值的 441.9倍)
+[2m2025-08-31T14:01:43.456174Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0497 (平均值的 16.0倍)
+[2m2025-08-31T14:01:43.466374Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 3.6920 (平均值的 19.5倍)
+[2m2025-08-31T14:01:43.769514Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0500 (平均值的 5.2倍)
+[2m2025-08-31T14:01:43.878356Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.6740 (平均值的 56.0倍)
+[2m2025-08-31T14:01:44.060002Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.1440 (平均值的 9.3倍)
+[2m2025-08-31T14:01:44.237190Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 10.1650 (平均值的 29.4倍)
+[2m2025-08-31T14:01:44.237272Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 5.2100 (平均值的 3.8倍)
+[2m2025-08-31T14:01:44.578867Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0277 (平均值的 17.3倍)
+[2m2025-08-31T14:01:44.601880Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.7170 (平均值的 5.5倍)
+[2m2025-08-31T14:01:44.709264Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0004 (平均值的 7.5倍)
+[2m2025-08-31T14:01:44.709575Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0913 (平均值的 903.8倍)
+[2m2025-08-31T14:01:44.709637Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.4229 (平均值的 46.0倍)
+[2m2025-08-31T14:01:44.709968Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！OKX BTC/USDT 成交量 0.0020 (平均值的 40.1倍)
+[2m2025-08-31T14:01:44.710266Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0406 (平均值的 162.0倍)
+[2m2025-08-31T14:01:44.711732Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0032 (平均值的 4.6倍)
+[2m2025-08-31T14:01:44.711969Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0054 (平均值的 11.4倍)
+[2m2025-08-31T14:01:44.735045Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！OKX BTC/USDT 成交量 0.0085 (平均值的 14.6倍)
+[2m2025-08-31T14:01:44.789446Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit BTC/USDT 成交量 0.0046 (平均值的 3.2倍)
+[2m2025-08-31T14:01:45.051839Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.3060 (平均值的 6.6倍)
+[2m2025-08-31T14:01:45.096242Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.3060 (平均值的 5.3倍)
+[2m2025-08-31T14:01:45.289535Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 1.1340 (平均值的 3.4倍)
+[2m2025-08-31T14:01:45.348403Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.6119 (平均值的 3.8倍)
+[2m2025-08-31T14:01:45.348502Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 4.8580 (平均值的 8.4倍)
+[2m2025-08-31T14:01:45.348555Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 7.2580 (平均值的 7.1倍)
+[2m2025-08-31T14:01:45.511743Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0200 (平均值的 14.9倍)
+[2m2025-08-31T14:01:45.511935Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0200 (平均值的 6.0倍)
+[2m2025-08-31T14:01:45.512390Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.1795 (平均值的 87.8倍)
+[2m2025-08-31T14:01:45.706583Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0m{"op":"ping"}
+[2m2025-08-31T14:01:45.749495Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0110 (平均值的 7.3倍)
+[2m2025-08-31T14:01:45.752570Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0010 (平均值的 18.2倍)
+[2m2025-08-31T14:01:45.752787Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0064 (平均值的 41.0倍)
+[2m2025-08-31T14:01:45.753066Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0193 (平均值的 28.0倍)
+[2m2025-08-31T14:01:45.753343Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0068 (平均值的 3.3倍)
+[2m2025-08-31T14:01:45.787451Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1599 (平均值的 5.3倍)
+[2m2025-08-31T14:01:45.787531Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.8401 (平均值的 42.3倍)
+[2m2025-08-31T14:01:45.788953Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.5380 (平均值的 6.5倍)
+[2m2025-08-31T14:01:45.830390Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("missing field `subscription_id`", line: 1, column: 94) [3mpayload[0m[2m=[0mUtf8Bytes(b"{\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"8f15a91b-ff8a-4803-9503-76573d7a3b97\",\"op\":\"ping\"}") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-08-31T14:01:45.830561Z[0m [31mERROR[0m [2mmonitor_demo[0m[2m:[0m 流错误: Socket("Deserialising JSON error: missing field `subscription_id` at line 1 column 94 for payload: {\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"8f15a91b-ff8a-4803-9503-76573d7a3b97\",\"op\":\"ping\"}")
+[2m2025-08-31T14:01:45.893310Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！OKX BTC/USDT 成交量 0.0060 (平均值的 8.4倍)
+[2m2025-08-31T14:01:45.893415Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！OKX BTC/USDT 成交量 0.0118 (平均值的 8.9倍)
+[2m2025-08-31T14:01:45.982708Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0006 (平均值的 11.0倍)
+[2m2025-08-31T14:01:45.982790Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0003 (平均值的 3.3倍)
+[2m2025-08-31T14:01:45.982842Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0013 (平均值的 9.8倍)
+[2m2025-08-31T14:01:45.982897Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0727 (平均值的 291.9倍)
+[2m2025-08-31T14:01:46.001349Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.0000 (平均值的 4.0倍)
+[2m2025-08-31T14:01:46.591318Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.7944 (平均值的 3.6倍)
+[2m2025-08-31T14:01:46.804894Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 3.7620 (平均值的 7.1倍)
+[2m2025-08-31T14:01:46.805331Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.1170 (平均值的 5.1倍)
+[2m2025-08-31T14:01:46.805749Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.2070 (平均值的 10.3倍)
+[2m2025-08-31T14:01:46.805816Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.7150 (平均值的 4.1倍)
+[2m2025-08-31T14:01:46.805963Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 3.9150 (平均值的 8.3倍)
+[2m2025-08-31T14:01:46.822518Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1330 (平均值的 10.6倍)
+[2m2025-08-31T14:01:46.822724Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1590 (平均值的 6.6倍)
+[2m2025-08-31T14:01:46.852474Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2797 (平均值的 8.8倍)
+[2m2025-08-31T14:01:46.852585Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2500 (平均值的 4.4倍)
+[2m2025-08-31T14:01:46.852665Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2500 (平均值的 3.1倍)
+[2m2025-08-31T14:01:46.852738Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.3744 (平均值的 3.6倍)
+[2m2025-08-31T14:01:46.872646Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.1190 (平均值的 7.8倍)
+[2m2025-08-31T14:01:46.874514Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 1.5656 (平均值的 7.0倍)
+[2m2025-08-31T14:01:47.160867Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.8950 (平均值的 7.5倍)
+[2m2025-08-31T14:01:47.160973Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.8950 (平均值的 5.0倍)
+[2m2025-08-31T14:01:47.161028Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.8950 (平均值的 3.4倍)
+[2m2025-08-31T14:01:47.163371Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.4190 (平均值的 32.0倍)
+[2m2025-08-31T14:01:47.163451Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2930 (平均值的 5.4倍)
+[2m2025-08-31T14:01:47.164574Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.3400 (平均值的 14.9倍)
+[2m2025-08-31T14:01:47.164649Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.6247 (平均值的 7.3倍)
+[2m2025-08-31T14:01:47.164709Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 3.7393 (平均值的 9.7倍)
+[2m2025-08-31T14:01:47.164764Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 4.0230 (平均值的 5.3倍)
+[2m2025-08-31T14:01:47.166407Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0060 (平均值的 5.0倍)
+[2m2025-08-31T14:01:47.166479Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0060 (平均值的 3.6倍)
+[2m2025-08-31T14:01:47.166879Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0121 (平均值的 3.9倍)
+[2m2025-08-31T14:01:47.167153Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2000 (平均值的 61.5倍)
+[2m2025-08-31T14:01:47.167357Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.4000 (平均值的 15.9倍)
+[2m2025-08-31T14:01:47.167756Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.5471 (平均值的 10.8倍)
+[2m2025-08-31T14:01:47.168049Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.7170 (平均值的 7.0倍)
+[2m2025-08-31T14:01:47.170009Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2050 (平均值的 14.4倍)
+[2m2025-08-31T14:01:47.170140Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1000 (平均值的 3.2倍)
+[2m2025-08-31T14:01:47.170201Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.2320 (平均值的 5.7倍)
+[2m2025-08-31T14:01:47.170256Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.4000 (平均值的 6.3倍)
+[2m2025-08-31T14:01:47.191672Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1263 (平均值的 27.2倍)
+[2m2025-08-31T14:01:47.191746Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0471 (平均值的 3.3倍)
+[2m2025-08-31T14:01:47.198011Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0280 (平均值的 23.3倍)
+[2m2025-08-31T14:01:47.198175Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0280 (平均值的 5.1倍)
+[2m2025-08-31T14:01:47.198235Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1980 (平均值的 24.1倍)
+[2m2025-08-31T14:01:47.214245Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1261 (平均值的 5.1倍)
+[2m2025-08-31T14:01:47.226267Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.1842 (平均值的 5.3倍)
+[2m2025-08-31T14:01:47.226375Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2500 (平均值的 6.1倍)
+[2m2025-08-31T14:01:47.244504Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1261 (平均值的 26.3倍)
+[2m2025-08-31T14:01:47.257167Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.0520 (平均值的 14.0倍)
+[2m2025-08-31T14:01:47.266017Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2237 (平均值的 12.3倍)
+[2m2025-08-31T14:01:47.266121Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2500 (平均值的 6.2倍)
+[2m2025-08-31T14:01:47.266202Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.2500 (平均值的 3.8倍)
+[2m2025-08-31T14:01:47.266279Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Bybit ETH/USDT 成交量 0.5294 (平均值的 5.9倍)
+[2m2025-08-31T14:01:47.314846Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.1259 (平均值的 20.1倍)
+[2m2025-08-31T14:01:47.316549Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.0224 (平均值的 18.7倍)
+[2m2025-08-31T14:01:47.356093Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.7960 (平均值的 96.1倍)
+[2m2025-08-31T14:01:47.380735Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 1.5910 (平均值的 479.2倍)
+[2m2025-08-31T14:01:47.465990Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 0.9700 (平均值的 6.0倍)
+[2m2025-08-31T14:01:47.466078Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.6080 (平均值的 10.1倍)
+[2m2025-08-31T14:01:47.466134Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 2.6080 (平均值的 5.0倍)
+[2m2025-08-31T14:01:47.466190Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 6.4210 (平均值的 8.2倍)
+[2m2025-08-31T14:01:47.466273Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 13.0420 (平均值的 7.8倍)
+[2m2025-08-31T14:01:47.466417Z[0m [33m WARN[0m [2mmonitor_demo[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 11.0970 (平均值的 3.3倍)
