@@ -1,0 +1,207 @@
+version: '3.9'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: crypto-monitor-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-crypto_monitor}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-crypto_monitor_pass}
+      POSTGRES_DB: ${DB_NAME:-crypto_monitor}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-crypto_monitor}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - crypto-monitor-network
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: crypto-monitor-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - crypto-monitor-network
+
+  # Fluvio Cluster
+  fluvio:
+    image: infinyon/fluvio:latest
+    container_name: crypto-monitor-fluvio
+    restart: unless-stopped
+    environment:
+      FLUVIO_SC_PUBLIC_ENDPOINT: "0.0.0.0:9003"
+      FLUVIO_SC_PRIVATE_ENDPOINT: "0.0.0.0:9004"
+      FLUVIO_SPU_PUBLIC_ENDPOINT: "0.0.0.0:9005"
+      FLUVIO_SPU_PRIVATE_ENDPOINT: "0.0.0.0:9006"
+    ports:
+      - "9003:9003"  # SC public
+      - "9004:9004"  # SC private
+      - "9005:9005"  # SPU public
+      - "9006:9006"  # SPU private
+    volumes:
+      - fluvio_data:/var/fluvio
+    command: >
+      sh -c "
+        fluvio cluster start --local --develop &&
+        tail -f /dev/null
+      "
+    healthcheck:
+      test: ["CMD", "fluvio", "cluster", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - crypto-monitor-network
+
+  # Database Migration Service
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    container_name: crypto-monitor-migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-crypto_monitor}:${DB_PASSWORD:-crypto_monitor_pass}@postgres:5432/${DB_NAME:-crypto_monitor}
+    volumes:
+      - ./migrations:/migrations:ro
+    networks:
+      - crypto-monitor-network
+    command: ["migrate", "run"]
+
+  # Main Application
+  crypto-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RUST_VERSION: 1.82
+    container_name: crypto-monitor-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      fluvio:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      RUST_LOG: ${RUST_LOG:-info}
+      DATABASE_URL: postgresql://${DB_USER:-crypto_monitor}:${DB_PASSWORD:-crypto_monitor_pass}@postgres:5432/${DB_NAME:-crypto_monitor}
+      FLUVIO_ENDPOINT: fluvio:9003
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "${API_PORT:-8080}:8080"      # REST API
+      - "${WS_PORT:-8081}:8081"        # WebSocket
+    volumes:
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+      - app_data:/app/data
+    networks:
+      - crypto-monitor-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Grafana for Monitoring (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: crypto-monitor-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - postgres
+    networks:
+      - crypto-monitor-network
+
+  # Prometheus for Metrics Collection (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: crypto-monitor-prometheus
+    restart: unless-stopped
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - crypto-monitor-network
+
+  # Nginx Reverse Proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: crypto-monitor-nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+      - "${NGINX_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - crypto-monitor
+    networks:
+      - crypto-monitor-network
+
+networks:
+  crypto-monitor-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  fluvio_data:
+    driver: local
+  app_data:
+    driver: local
+  grafana_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  nginx_logs:
+    driver: local

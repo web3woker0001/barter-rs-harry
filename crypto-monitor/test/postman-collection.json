@@ -1,0 +1,370 @@
+{
+  "info": {
+    "name": "Crypto Monitor API",
+    "description": "Complete Postman collection for Crypto Monitor API testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "System Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Market Data",
+      "item": [
+        {
+          "name": "Get Market Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/market/stats?symbol=BTC/USDT&exchange=binance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "market", "stats"],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "BTC/USDT"
+                },
+                {
+                  "key": "exchange",
+                  "value": "binance"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Market History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/market/history?symbol=BTC/USDT&from={{from}}&to={{to}}&limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "market", "history"],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "BTC/USDT"
+                },
+                {
+                  "key": "from",
+                  "value": "{{from}}"
+                },
+                {
+                  "key": "to",
+                  "value": "{{to}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Order Book",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/market/orderbook?symbol=BTC/USDT&exchange=binance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "market", "orderbook"],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "BTC/USDT"
+                },
+                {
+                  "key": "exchange",
+                  "value": "binance"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anomalies",
+      "item": [
+        {
+          "name": "Get Anomalies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/anomalies?anomaly_type=VolumeSpike&severity=High",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "anomalies"],
+              "query": [
+                {
+                  "key": "anomaly_type",
+                  "value": "VolumeSpike"
+                },
+                {
+                  "key": "severity",
+                  "value": "High"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Anomaly Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/anomalies/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "anomalies", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trading",
+      "item": [
+        {
+          "name": "Get Trading Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trading/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trading", "config"]
+            }
+          }
+        },
+        {
+          "name": "Update Trading Config",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"symbol\": \"BTC/USDT\",\n  \"exchange\": \"binance\",\n  \"max_position_size\": 1000.0,\n  \"stop_loss_percentage\": 3.0,\n  \"take_profit_percentage\": 6.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trading/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trading", "config"]
+            }
+          }
+        },
+        {
+          "name": "Get Positions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trading/positions?status=open",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trading", "positions"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "open"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trading/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trading", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Place Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"symbol\": \"BTC/USDT\",\n  \"exchange\": \"binance\",\n  \"side\": \"buy\",\n  \"type\": \"limit\",\n  \"quantity\": 0.001,\n  \"price\": 45000.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trading/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trading", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trading/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trading", "orders", "{{orderId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {
+          "name": "Get Alert Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/alerts/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "alerts", "config"]
+            }
+          }
+        },
+        {
+          "name": "Update Alert Config",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"channels\": [\n    {\n      \"channel_type\": \"Telegram\",\n      \"config\": {\n        \"chat_id\": \"-123456789\",\n        \"send_images\": true\n      }\n    },\n    {\n      \"channel_type\": \"Email\",\n      \"config\": {\n        \"to_addresses\": [\"alert@example.com\"]\n      }\n    }\n  ],\n  \"severity_threshold\": \"Medium\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/alerts/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "alerts", "config"]
+            }
+          }
+        },
+        {
+          "name": "Get Alert History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/alerts/history?severity=Critical&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "alerts", "history"],
+              "query": [
+                {
+                  "key": "severity",
+                  "value": "Critical"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test(\"Status code is 200\", function () {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "pm.test(\"Response time is less than 1000ms\", function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(1000);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "from",
+      "value": "2024-01-01T00:00:00Z",
+      "type": "string"
+    },
+    {
+      "key": "to",
+      "value": "2024-01-02T00:00:00Z",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "REPLACE_WITH_ACTUAL_ORDER_ID",
+      "type": "string"
+    }
+  ]
+}

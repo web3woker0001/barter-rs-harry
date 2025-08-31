@@ -1,0 +1,246 @@
+{
+  "name": "Crypto Monitor API Collection",
+  "description": "Complete API test collection for Crypto Monitor",
+  "baseUrl": "http://localhost:8080",
+  "tests": [
+    {
+      "category": "Health & Status",
+      "endpoints": [
+        {
+          "name": "Health Check",
+          "method": "GET",
+          "path": "/health",
+          "description": "Check if the service is healthy",
+          "curl": "curl -X GET http://localhost:8080/health"
+        },
+        {
+          "name": "System Status",
+          "method": "GET",
+          "path": "/api/v1/status",
+          "description": "Get system status including connected exchanges and active monitors",
+          "curl": "curl -X GET http://localhost:8080/api/v1/status"
+        }
+      ]
+    },
+    {
+      "category": "Market Data",
+      "endpoints": [
+        {
+          "name": "Get Market Stats",
+          "method": "GET",
+          "path": "/api/v1/market/stats",
+          "params": {
+            "symbol": "BTC/USDT",
+            "exchange": "binance"
+          },
+          "description": "Get current market statistics",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/market/stats?symbol=BTC/USDT&exchange=binance'"
+        },
+        {
+          "name": "Get Market History",
+          "method": "GET",
+          "path": "/api/v1/market/history",
+          "params": {
+            "symbol": "BTC/USDT",
+            "exchange": "binance",
+            "from": "2024-01-01T00:00:00Z",
+            "to": "2024-01-02T00:00:00Z",
+            "limit": 100
+          },
+          "description": "Get historical market data",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/market/history?symbol=BTC/USDT&exchange=binance&from=2024-01-01T00:00:00Z&to=2024-01-02T00:00:00Z&limit=100'"
+        },
+        {
+          "name": "Get Order Book",
+          "method": "GET",
+          "path": "/api/v1/market/orderbook",
+          "params": {
+            "symbol": "BTC/USDT",
+            "exchange": "binance",
+            "depth": 20
+          },
+          "description": "Get current order book",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/market/orderbook?symbol=BTC/USDT&exchange=binance&depth=20'"
+        }
+      ]
+    },
+    {
+      "category": "Anomaly Detection",
+      "endpoints": [
+        {
+          "name": "Get Anomalies",
+          "method": "GET",
+          "path": "/api/v1/anomalies",
+          "params": {
+            "symbol": "BTC/USDT",
+            "anomaly_type": "VolumeSpike",
+            "severity": "High",
+            "limit": 50
+          },
+          "description": "Get detected anomalies",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/anomalies?symbol=BTC/USDT&anomaly_type=VolumeSpike&severity=High&limit=50'"
+        },
+        {
+          "name": "Get Anomaly Stats",
+          "method": "GET",
+          "path": "/api/v1/anomalies/stats",
+          "description": "Get anomaly statistics",
+          "curl": "curl -X GET http://localhost:8080/api/v1/anomalies/stats"
+        }
+      ]
+    },
+    {
+      "category": "Trading",
+      "endpoints": [
+        {
+          "name": "Get Trading Config",
+          "method": "GET",
+          "path": "/api/v1/trading/config",
+          "description": "Get current trading configuration",
+          "curl": "curl -X GET http://localhost:8080/api/v1/trading/config"
+        },
+        {
+          "name": "Update Trading Config",
+          "method": "POST",
+          "path": "/api/v1/trading/config",
+          "body": {
+            "enabled": true,
+            "symbol": "BTC/USDT",
+            "exchange": "binance",
+            "max_position_size": 1000.0,
+            "stop_loss_percentage": 3.0,
+            "take_profit_percentage": 6.0
+          },
+          "description": "Update trading configuration",
+          "curl": "curl -X POST http://localhost:8080/api/v1/trading/config -H 'Content-Type: application/json' -d '{\"enabled\":true,\"symbol\":\"BTC/USDT\",\"exchange\":\"binance\",\"max_position_size\":1000.0,\"stop_loss_percentage\":3.0,\"take_profit_percentage\":6.0}'"
+        },
+        {
+          "name": "Get Positions",
+          "method": "GET",
+          "path": "/api/v1/trading/positions",
+          "params": {
+            "status": "open"
+          },
+          "description": "Get trading positions",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/trading/positions?status=open'"
+        },
+        {
+          "name": "Get Orders",
+          "method": "GET",
+          "path": "/api/v1/trading/orders",
+          "params": {
+            "status": "filled",
+            "symbol": "BTC/USDT"
+          },
+          "description": "Get trading orders",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/trading/orders?status=filled&symbol=BTC/USDT'"
+        },
+        {
+          "name": "Place Order",
+          "method": "POST",
+          "path": "/api/v1/trading/orders",
+          "body": {
+            "symbol": "BTC/USDT",
+            "exchange": "binance",
+            "side": "buy",
+            "type": "limit",
+            "quantity": 0.001,
+            "price": 45000.0
+          },
+          "description": "Place a new order",
+          "curl": "curl -X POST http://localhost:8080/api/v1/trading/orders -H 'Content-Type: application/json' -d '{\"symbol\":\"BTC/USDT\",\"exchange\":\"binance\",\"side\":\"buy\",\"type\":\"limit\",\"quantity\":0.001,\"price\":45000.0}'"
+        },
+        {
+          "name": "Cancel Order",
+          "method": "DELETE",
+          "path": "/api/v1/trading/orders/{id}",
+          "description": "Cancel an order",
+          "curl": "curl -X DELETE http://localhost:8080/api/v1/trading/orders/ORDER_ID"
+        }
+      ]
+    },
+    {
+      "category": "Alerts",
+      "endpoints": [
+        {
+          "name": "Get Alert Config",
+          "method": "GET",
+          "path": "/api/v1/alerts/config",
+          "description": "Get alert configuration",
+          "curl": "curl -X GET http://localhost:8080/api/v1/alerts/config"
+        },
+        {
+          "name": "Update Alert Config",
+          "method": "POST",
+          "path": "/api/v1/alerts/config",
+          "body": {
+            "enabled": true,
+            "channels": [
+              {
+                "channel_type": "Telegram",
+                "config": {
+                  "chat_id": "-123456789",
+                  "send_images": true
+                }
+              },
+              {
+                "channel_type": "Email",
+                "config": {
+                  "to_addresses": ["alert@example.com"]
+                }
+              }
+            ],
+            "severity_threshold": "Medium"
+          },
+          "description": "Update alert configuration",
+          "curl": "curl -X POST http://localhost:8080/api/v1/alerts/config -H 'Content-Type: application/json' -d '{\"enabled\":true,\"channels\":[{\"channel_type\":\"Telegram\",\"config\":{\"chat_id\":\"-123456789\",\"send_images\":true}},{\"channel_type\":\"Email\",\"config\":{\"to_addresses\":[\"alert@example.com\"]}}],\"severity_threshold\":\"Medium\"}'"
+        },
+        {
+          "name": "Get Alert History",
+          "method": "GET",
+          "path": "/api/v1/alerts/history",
+          "params": {
+            "severity": "Critical",
+            "limit": 20
+          },
+          "description": "Get alert history",
+          "curl": "curl -X GET 'http://localhost:8080/api/v1/alerts/history?severity=Critical&limit=20'"
+        }
+      ]
+    },
+    {
+      "category": "WebSocket",
+      "endpoints": [
+        {
+          "name": "WebSocket Connection",
+          "method": "WS",
+          "path": "/ws",
+          "description": "WebSocket endpoint for real-time data",
+          "examples": [
+            {
+              "name": "Subscribe to all events",
+              "message": "{\"msg_type\":\"Subscribe\",\"data\":{\"channel\":\"all\",\"symbols\":[],\"exchanges\":[]}}"
+            },
+            {
+              "name": "Subscribe to specific symbol",
+              "message": "{\"msg_type\":\"Subscribe\",\"data\":{\"channel\":\"market\",\"symbols\":[\"BTC/USDT\"],\"exchanges\":[\"binance\"]}}"
+            },
+            {
+              "name": "Subscribe to anomalies",
+              "message": "{\"msg_type\":\"Subscribe\",\"data\":{\"channel\":\"anomalies\",\"symbols\":[],\"exchanges\":[]}}"
+            },
+            {
+              "name": "Unsubscribe",
+              "message": "{\"msg_type\":\"Unsubscribe\",\"data\":{\"channel\":\"market\",\"symbols\":[\"BTC/USDT\"],\"exchanges\":[\"binance\"]}}"
+            },
+            {
+              "name": "Heartbeat",
+              "message": "{\"msg_type\":\"Heartbeat\",\"data\":{}}"
+            }
+          ],
+          "wscat": "wscat -c ws://localhost:8081/ws"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[package]
+name = "monitor-config"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+monitor-core = { path = "../monitor-core" }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+
+config = { workspace = true }
+
+tokio = { workspace = true }
+async-trait = { workspace = true }
+
+tracing = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }

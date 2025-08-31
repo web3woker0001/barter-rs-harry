@@ -1,0 +1,28 @@
+[package]
+name = "monitor-trader"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+monitor-core = { path = "../monitor-core" }
+monitor-anomaly = { path = "../monitor-anomaly" }
+
+barter = { workspace = true }
+barter-execution = { workspace = true }
+barter-instrument = { workspace = true }
+
+tokio = { workspace = true }
+futures = { workspace = true }
+async-trait = { workspace = true }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+tracing = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+
+parking_lot = { workspace = true }
+dashmap = { workspace = true }

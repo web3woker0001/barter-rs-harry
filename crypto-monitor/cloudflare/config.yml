@@ -1,0 +1,98 @@
+# Cloudflare Tunnel Configuration
+# Replace TUNNEL_ID with your actual tunnel ID
+tunnel: YOUR_TUNNEL_ID
+credentials-file: /etc/cloudflared/YOUR_TUNNEL_ID.json
+
+# Log configuration
+loglevel: info
+transport-loglevel: warn
+
+# Metrics server
+metrics: localhost:2000
+
+# Origin configuration
+originRequest:
+  # Keep alive
+  keepAliveConnections: 100
+  keepAliveTimeout: 90s
+  
+  # Timeouts
+  connectTimeout: 30s
+  tlsTimeout: 10s
+  tcpKeepAlive: 30s
+  
+  # HTTP settings
+  noHappyEyeballs: false
+  disableChunkedEncoding: false
+  
+  # Buffer size
+  proxyBufferSize: 65536
+
+# Ingress rules
+ingress:
+  # API Service (REST endpoints)
+  - hostname: api.monitor.example.com
+    service: http://crypto-monitor:8080
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: "api.monitor.internal"
+      originServerName: "api.monitor.example.com"
+      connectTimeout: 30s
+      disableChunkedEncoding: false
+      # Headers
+      customRequestHeaders:
+        X-Source: "cloudflare-tunnel"
+      
+  # WebSocket Service (Real-time data)
+  - hostname: ws.monitor.example.com
+    service: ws://crypto-monitor:8081
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: "ws.monitor.internal"
+      # WebSocket specific settings
+      connectTimeout: 0s  # No timeout for WebSocket
+      tcpKeepAlive: 30s
+      
+  # Grafana Dashboard
+  - hostname: grafana.monitor.example.com
+    service: http://grafana:3000
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: "grafana.monitor.internal"
+      disableChunkedEncoding: false
+      
+  # Prometheus Metrics
+  - hostname: metrics.monitor.example.com
+    service: http://prometheus:9090
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: "metrics.monitor.internal"
+      
+  # Main Web Interface
+  - hostname: monitor.example.com
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: "monitor.internal"
+      disableChunkedEncoding: false
+      
+  # Admin Interface (with extra security)
+  - hostname: admin.monitor.example.com
+    service: http://crypto-monitor:8080/admin
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: "admin.monitor.internal"
+      # Extra security headers for admin
+      customRequestHeaders:
+        X-Admin-Access: "true"
+        X-Source: "cloudflare-tunnel-admin"
+        
+  # Health Check Endpoint (public)
+  - hostname: health.monitor.example.com
+    service: http://crypto-monitor:8080/health
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 5s
+      
+  # Catch-all rule (must be last)
+  - service: http_status:404

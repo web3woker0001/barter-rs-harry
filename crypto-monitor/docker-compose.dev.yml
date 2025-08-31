@@ -1,0 +1,44 @@
+version: '3.9'
+
+# Development-specific overrides
+services:
+  crypto-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        RUST_VERSION: 1.82
+    volumes:
+      - .:/app/src:ro
+      - cargo_cache:/usr/local/cargo/registry
+      - target_cache:/app/target
+    environment:
+      RUST_LOG: debug
+      RUST_BACKTRACE: 1
+      CARGO_WATCH: "true"
+    command: ["cargo", "watch", "-x", "run", "--", "--config", "/app/config/config.yaml"]
+
+  postgres:
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: crypto_monitor_dev
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  fluvio:
+    ports:
+      - "9003:9003"
+      - "9004:9004"
+      - "9005:9005"
+      - "9006:9006"
+
+volumes:
+  cargo_cache:
+    driver: local
+  target_cache:
+    driver: local

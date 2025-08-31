@@ -1,0 +1,111 @@
+# Alternative Dockerfile using Alpine and pre-built sqlx-cli
+# This avoids compilation issues with sqlx-cli
+
+# Build stage
+FROM rust:1.82-alpine as builder
+
+# Install build dependencies
+RUN apk add --no-cache \
+    musl-dev \
+    pkgconfig \
+    openssl-dev \
+    protobuf-dev \
+    cmake \
+    make \
+    g++
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy workspace files
+COPY Cargo.toml ./
+COPY monitor-core/Cargo.toml ./monitor-core/
+COPY monitor-anomaly/Cargo.toml ./monitor-anomaly/
+COPY monitor-api/Cargo.toml ./monitor-api/
+COPY monitor-notifier/Cargo.toml ./monitor-notifier/
+COPY monitor-trader/Cargo.toml ./monitor-trader/
+COPY monitor-config/Cargo.toml ./monitor-config/
+COPY monitor-app/Cargo.toml ./monitor-app/
+
+# Create dummy source files for dependency caching
+RUN mkdir -p monitor-core/src monitor-anomaly/src monitor-api/src \
+    monitor-notifier/src monitor-trader/src monitor-config/src monitor-app/src && \
+    echo "fn main() {}" > monitor-app/src/main.rs && \
+    touch monitor-core/src/lib.rs monitor-anomaly/src/lib.rs \
+    monitor-api/src/lib.rs monitor-notifier/src/lib.rs \
+    monitor-trader/src/lib.rs monitor-config/src/lib.rs
+
+# Note: Barter dependencies should be available as workspace members
+# If building in CI/CD, these should be copied to the build context first
+# For local build, we'll create dummy packages or use git submodules
+
+# Build dependencies
+RUN cargo build --release --package monitor-app
+
+# Remove dummy source files
+RUN rm -rf monitor-*/src
+
+# Copy actual source code
+COPY monitor-core/src ./monitor-core/src
+COPY monitor-anomaly/src ./monitor-anomaly/src
+COPY monitor-api/src ./monitor-api/src
+COPY monitor-notifier/src ./monitor-notifier/src
+COPY monitor-trader/src ./monitor-trader/src
+COPY monitor-config/src ./monitor-config/src
+COPY monitor-app/src ./monitor-app/src
+
+# Copy migrations
+COPY migrations ./migrations
+
+# Touch source files to ensure rebuild
+RUN touch monitor-app/src/main.rs
+
+# Build the application
+RUN cargo build --release --package monitor-app
+
+# Runtime stage
+FROM alpine:3.19
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    ca-certificates \
+    openssl \
+    libgcc \
+    curl \
+    postgresql-client
+
+# Create non-root user
+RUN adduser -D -u 1000 monitor && \
+    mkdir -p /app/data /app/logs && \
+    chown -R monitor:monitor /app
+
+WORKDIR /app
+
+# Copy binary from builder
+COPY --from=builder /usr/src/app/target/release/crypto-monitor /app/
+COPY --from=builder /usr/src/app/migrations /app/migrations
+
+# Copy configuration template
+COPY config.example.yaml /app/config.example.yaml
+
+# Create health check script
+RUN echo '#!/bin/sh\ncurl -f http://localhost:8080/health || exit 1' > /app/healthcheck.sh && \
+    chmod +x /app/healthcheck.sh
+
+# Switch to non-root user
+USER monitor
+
+# Expose ports
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD ["/app/healthcheck.sh"]
+
+# Set default environment variables
+ENV RUST_LOG=info
+ENV CONFIG_PATH=/app/config/config.yaml
+
+# Run the application
+ENTRYPOINT ["/app/crypto-monitor"]
+CMD ["--config", "/app/config/config.yaml"]

@@ -1,0 +1,113 @@
+# Crypto Monitor Configuration
+
+# Exchange configurations
+exchanges:
+  - name: binance
+    enabled: true
+    symbols:
+      - BTC/USDT
+      - ETH/USDT
+      - BNB/USDT
+      - SOL/USDT
+      - XRP/USDT
+    subscriptions:
+      - trades
+      - orderbook
+      - candles
+      
+  - name: coinbase
+    enabled: true
+    symbols:
+      - BTC-USD
+      - ETH-USD
+      - SOL-USD
+    subscriptions:
+      - trades
+      - orderbook
+      
+  - name: okx
+    enabled: true
+    symbols:
+      - BTC-USDT
+      - ETH-USDT
+    subscriptions:
+      - trades
+      - orderbook
+
+# Fluvio configuration
+fluvio:
+  endpoint: "localhost:9003"
+  topic_prefix: "crypto-monitor"
+  partitions: 3
+  replication_factor: 1
+
+# Database configuration
+database:
+  url: "postgresql://user:password@localhost/crypto_monitor"
+  max_connections: 10
+  min_connections: 2
+
+# Monitoring configuration
+monitoring:
+  # Anomaly detection settings
+  anomaly_detection:
+    volume_threshold_multiplier: 3.0  # Z-score threshold for volume anomalies
+    price_change_percentage: 5.0      # Percentage change threshold for price anomalies
+    lookback_window_minutes: 60       # Historical window for analysis
+    min_samples: 30                   # Minimum samples required before detecting anomalies
+  
+  # Alert configuration
+  alerting:
+    telegram_enabled: true
+    wechat_enabled: false
+    email_enabled: true
+    sms_enabled: false
+  
+  # Auto trading configuration
+  trading:
+    auto_trading_enabled: false       # Enable/disable automated trading
+    max_position_size: 1000.0         # Maximum position size in USD
+    risk_percentage: 2.0              # Risk per trade as percentage of portfolio
+    stop_loss_percentage: 3.0         # Stop loss percentage
+    take_profit_percentage: 6.0       # Take profit percentage
+
+# Notification channels configuration
+notification:
+  telegram:
+    enabled: true
+    bot_token: "YOUR_BOT_TOKEN"
+    chat_ids:
+      - "-123456789"  # Group chat ID
+      - "987654321"   # Personal chat ID
+    send_images: true
+  
+  wechat:
+    enabled: false
+    corp_id: "YOUR_CORP_ID"
+    agent_id: "YOUR_AGENT_ID"
+    secret: "YOUR_SECRET"
+    to_user:
+      - "user1"
+      - "user2"
+  
+  email:
+    enabled: true
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    username: "your-email@gmail.com"
+    password: "your-app-password"
+    from_address: "your-email@gmail.com"
+    to_addresses:
+      - "recipient1@example.com"
+      - "recipient2@example.com"
+    use_tls: true
+  
+  sms:
+    enabled: false
+    provider:
+      Twilio:
+        account_sid: "YOUR_ACCOUNT_SID"
+        auth_token: "YOUR_AUTH_TOKEN"
+    from_number: "+1234567890"
+    to_numbers:
+      - "+0987654321"

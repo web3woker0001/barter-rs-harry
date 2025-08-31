@@ -1,0 +1,26 @@
+# Migration-specific Dockerfile
+FROM rust:1.82-slim as builder
+
+# Install sqlx-cli with specific version to avoid compatibility issues
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install a specific version of sqlx-cli that's compatible
+RUN cargo install sqlx-cli --version 0.7.4 --no-default-features --features postgres
+
+# Runtime stage
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl3 \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /usr/local/cargo/bin/sqlx /usr/local/bin/sqlx
+
+WORKDIR /migrations
+
+ENTRYPOINT ["sqlx"]

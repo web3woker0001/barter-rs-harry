@@ -1,0 +1,99 @@
+version: '3.9'
+
+services:
+  # Cloudflare Tunnel Service
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: crypto-monitor-tunnel
+    restart: unless-stopped
+    command: tunnel --config /etc/cloudflared/config.yml run
+    environment:
+      TUNNEL_METRICS: 0.0.0.0:2000
+      TUNNEL_LOGLEVEL: ${TUNNEL_LOGLEVEL:-info}
+    volumes:
+      - ./cloudflare/config.yml:/etc/cloudflared/config.yml:ro
+      - ./cloudflare/credentials:/etc/cloudflared:ro
+      - cloudflared_data:/home/nonroot/.cloudflared
+    networks:
+      - crypto-monitor-network
+    depends_on:
+      - crypto-monitor
+      - nginx
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:2000/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Updated Nginx configuration for Cloudflare
+  nginx:
+    volumes:
+      - ./cloudflare/nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      REAL_IP_FROM: "173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18"
+      TRUSTED_PROXIES: "cloudflare"
+
+  # Optional: Cloudflare Tunnel Replica for HA
+  cloudflared-replica:
+    image: cloudflare/cloudflared:latest
+    container_name: crypto-monitor-tunnel-replica
+    restart: unless-stopped
+    command: tunnel --config /etc/cloudflared/config.yml run
+    environment:
+      TUNNEL_METRICS: 0.0.0.0:2001
+      TUNNEL_LOGLEVEL: ${TUNNEL_LOGLEVEL:-info}
+    volumes:
+      - ./cloudflare/config.yml:/etc/cloudflared/config.yml:ro
+      - ./cloudflare/credentials:/etc/cloudflared:ro
+      - cloudflared_replica_data:/home/nonroot/.cloudflared
+    networks:
+      - crypto-monitor-network
+    depends_on:
+      - crypto-monitor
+      - nginx
+    profiles:
+      - ha  # Only start with --profile ha flag
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:2001/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Cloudflare Tunnel Metrics Exporter (for Prometheus)
+  cloudflared-exporter:
+    image: prom/node-exporter:latest
+    container_name: crypto-monitor-tunnel-exporter
+    restart: unless-stopped
+    command:
+      - '--path.rootfs=/host'
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+)($$|/)'
+      - '--web.telemetry-path=/metrics/tunnel'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/host:ro
+    networks:
+      - crypto-monitor-network
+    profiles:
+      - monitoring
+    ports:
+      - "9101:9100"
+
+volumes:
+  cloudflared_data:
+    driver: local
+  cloudflared_replica_data:
+    driver: local
+
+networks:
+  crypto-monitor-network:
+    external: true

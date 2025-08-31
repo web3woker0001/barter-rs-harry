@@ -1,0 +1,46 @@
+[package]
+name = "monitor-app"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "crypto-monitor"
+path = "src/main.rs"
+
+[dependencies]
+monitor-core = { path = "../monitor-core" }
+monitor-anomaly = { path = "../monitor-anomaly" }
+monitor-api = { path = "../monitor-api" }
+monitor-notifier = { path = "../monitor-notifier" }
+monitor-trader = { path = "../monitor-trader" }
+monitor-config = { path = "../monitor-config" }
+
+barter = { workspace = true }
+barter-data = { workspace = true }
+barter-execution = { workspace = true }
+barter-instrument = { workspace = true }
+
+fluvio = { workspace = true }
+
+tokio = { workspace = true }
+futures = { workspace = true }
+async-trait = { workspace = true }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+
+sqlx = { workspace = true }
+
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+config = { workspace = true }
+clap = { version = "4.5", features = ["derive", "env"] }
+
+chrono = { workspace = true }
+anyhow = { workspace = true }
+
+ctrlc = "3.4"

@@ -1,0 +1,35 @@
+[package]
+name = "monitor-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+barter = { workspace = true }
+barter-data = { workspace = true }
+barter-execution = { workspace = true }
+barter-integration = { workspace = true }
+barter-instrument = { workspace = true }
+
+fluvio = { workspace = true }
+fluvio-future = { workspace = true }
+
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+futures = { workspace = true }
+async-trait = { workspace = true }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+sqlx = { workspace = true }
+
+tracing = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+uuid = { workspace = true }
+parking_lot = { workspace = true }
+dashmap = { workspace = true }
