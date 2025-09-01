@@ -1,0 +1,164 @@
+   Compiling barter-data v0.10.2 (/var/tmp/vibe-kanban/worktrees/vk-a8c3-barter-rs/barter-data)
+warning: unused import: `futures::BybitPerpetualsUsd`
+  --> barter-data/examples/monitor_demo_improved.rs:12:17
+   |
+12 |         bybit::{futures::BybitPerpetualsUsd, spot::BybitSpot},
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unnecessary parentheses around block return value
+   --> barter-data/examples/monitor_demo_improved.rs:257:13
+    |
+257 |             (self.anomalies_detected as f64 / self.trade_count as f64 * 100.0)
+    |             ^                                                                ^
+    |
+    = note: `#[warn(unused_parens)]` on by default
+help: remove these parentheses
+    |
+257 -             (self.anomalies_detected as f64 / self.trade_count as f64 * 100.0)
+257 +             self.anomalies_detected as f64 / self.trade_count as f64 * 100.0
+    |
+
+warning: fields `timestamp`, `symbol`, and `market_type` are never read
+  --> barter-data/examples/monitor_demo_improved.rs:63:5
+   |
+62 | struct MarketDataPoint {
+   |        --------------- fields in this struct
+63 |     timestamp: DateTime<Utc>,
+   |     ^^^^^^^^^
+...
+67 |     symbol: String,
+   |     ^^^^^^
+68 |     market_type: String,
+   |     ^^^^^^^^^^^
+   |
+   = note: `MarketDataPoint` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` on by default
+
+warning: fields `min` and `max` are never read
+  --> barter-data/examples/monitor_demo_improved.rs:76:5
+   |
+73 | struct Statistics {
+   |        ---------- fields in this struct
+...
+76 |     min: f64,
+   |     ^^^
+77 |     max: f64,
+   |     ^^^
+   |
+   = note: `Statistics` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: field `false_positives` is never read
+   --> barter-data/examples/monitor_demo_improved.rs:121:5
+    |
+112 | struct SymbolMonitor {
+    |        ------------- field in this struct
+...
+121 |     false_positives: u64,
+    |     ^^^^^^^^^^^^^^^
+    |
+    = note: `SymbolMonitor` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: `barter-data` (example "monitor_demo_improved") generated 5 warnings (run `cargo fix --example "monitor_demo_improved"` to apply 2 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.31s
+     Running `target/debug/examples/monitor_demo_improved`
+
+🚀 启动改进版加密货币实时监控系统 v2.0
+=========================================
+监控交易所: Binance, OKX, Bybit
+监控币种: BTC/USDT, ETH/USDT
+改进功能:
+  ✅ 优化异常检测敏感度
+  ✅ 动态阈值调整
+  ✅ 过滤 WebSocket 噪音
+  ✅ 改进统计显示
+=========================================
+
+[2m2025-09-01T05:14:34.725026Z[0m [32m INFO[0m [2mmonitor_demo_improved[0m[2m:[0m 初始化交易所数据流...
+[2m2025-09-01T05:14:34.725371Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mBinanceSpot [3msubscriptions[0m[2m=[0m(btc_usdt_spot, public_trades),(eth_usdt_spot, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-BinanceSpot-public_trades
+[2m2025-09-01T05:14:34.725635Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mBinanceSpot [3murl[0m[2m=[0mwss://stream.binance.com:9443/ws [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-09-01T05:14:34.725718Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("stream.binance.com")), port: Some(9443), path: "/ws", query: None, fragment: None }
+[2m2025-09-01T05:14:34.726315Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mBinanceFuturesUsd [3msubscriptions[0m[2m=[0m(btc_usdt_perpetual, public_trades),(eth_usdt_perpetual, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-BinanceFuturesUsd-public_trades
+[2m2025-09-01T05:14:34.726415Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mBinanceFuturesUsd [3murl[0m[2m=[0mwss://fstream.binance.com/ws [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }]
+[2m2025-09-01T05:14:34.726448Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("fstream.binance.com")), port: None, path: "/ws", query: None, fragment: None }
+[2m2025-09-01T05:14:34.726693Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mOkx [3msubscriptions[0m[2m=[0m(btc_usdt_spot, public_trades),(eth_usdt_spot, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-Okx-public_trades
+[2m2025-09-01T05:14:34.726791Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mOkx [3murl[0m[2m=[0mwss://ws.okx.com:8443/ws/v5/public [3msubscriptions[0m[2m=[0m[Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-09-01T05:14:34.726822Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("ws.okx.com")), port: Some(8443), path: "/ws/v5/public", query: None, fragment: None }
+[2m2025-09-01T05:14:34.727079Z[0m [32m INFO[0m [2mbarter_data::streams::consumer[0m[2m:[0m MarketStream with auto reconnect initialising [3mexchange[0m[2m=[0mBybitSpot [3msubscriptions[0m[2m=[0m(btc_usdt_spot, public_trades),(eth_usdt_spot, public_trades) [3mpolicy[0m[2m=[0mReconnectionBackoffPolicy { backoff_ms_initial: 125, backoff_multiplier: 2, backoff_ms_max: 60000 } [3mstream_key[0m[2m=[0mmarket_stream-BybitSpot-public_trades
+[2m2025-09-01T05:14:34.727178Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m subscribing to WebSocket [3mexchange[0m[2m=[0mBybitSpot [3murl[0m[2m=[0mwss://stream.bybit.com/v5/public/spot [3msubscriptions[0m[2m=[0m[Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-09-01T05:14:34.727210Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m attempting to establish WebSocket connection [3mrequest[0m[2m=[0mUrl { scheme: "wss", cannot_be_a_base: false, username: "", password: None, host: Some(Domain("stream.bybit.com")), port: None, path: "/v5/public/spot", query: None, fragment: None }
+[2m2025-09-01T05:14:34.908092Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-09-01T05:14:34.908195Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mBinanceFuturesUsd [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::futures::BinanceServerFuturesUsd> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Perpetual }, kind: PublicTrades }]
+[2m2025-09-01T05:14:34.908321Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mBinanceFuturesUsd [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"id\":1,\"method\":\"SUBSCRIBE\",\"params\":[\"btcusdt@trade\",\"ethusdt@trade\"]}"))
+[2m2025-09-01T05:14:34.961746Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-09-01T05:14:34.961824Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mBinanceSpot [3msubscriptions[0m[2m=[0m[Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Binance { server: PhantomData<barter_data::exchange::binance::spot::BinanceServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-09-01T05:14:34.961977Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mBinanceSpot [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"id\":1,\"method\":\"SUBSCRIBE\",\"params\":[\"btcusdt@trade\",\"ethusdt@trade\"]}"))
+[2m2025-09-01T05:14:35.044579Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mBinanceFuturesUsd [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m1 [3mpayload[0m[2m=[0mBinanceSubResponse { result: None, id: 1 }
+[2m2025-09-01T05:14:35.044629Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mBinanceFuturesUsd
+[2m2025-09-01T05:14:35.044651Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mBinanceFuturesUsd
+[2m2025-09-01T05:14:35.044983Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-BinanceFuturesUsd-public_trades
+[2m2025-09-01T05:14:35.107117Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-09-01T05:14:35.107205Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mOkx [3msubscriptions[0m[2m=[0m[Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Okx, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-09-01T05:14:35.107316Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mOkx [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"args\":[{\"channel\":\"trades\",\"instId\":\"BTC-USDT\"},{\"channel\":\"trades\",\"instId\":\"ETH-USDT\"}],\"op\":\"subscribe\"}"))
+[2m2025-09-01T05:14:35.141843Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mBinanceSpot [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m1 [3mpayload[0m[2m=[0mBinanceSubResponse { result: None, id: 1 }
+[2m2025-09-01T05:14:35.141892Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mBinanceSpot
+[2m2025-09-01T05:14:35.141932Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mBinanceSpot
+[2m2025-09-01T05:14:35.142130Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-BinanceSpot-public_trades
+[2m2025-09-01T05:14:35.197952Z[0m [34mDEBUG[0m [2mtungstenite::handshake::client[0m[2m:[0m Client handshake done.
+[2m2025-09-01T05:14:35.198039Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m connected to WebSocket [3mexchange[0m[2m=[0mBybitSpot [3msubscriptions[0m[2m=[0m[Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("btc"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }, Subscription { exchange: Bybit { server: PhantomData<barter_data::exchange::bybit::spot::BybitServerSpot> }, instrument: MarketDataInstrument { base: AssetNameInternal("eth"), quote: AssetNameInternal("usdt"), kind: Spot }, kind: PublicTrades }]
+[2m2025-09-01T05:14:35.198142Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m sending exchange subscription [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0mText(Utf8Bytes(b"{\"args\":[\"publicTrade.BTCUSDT\",\"publicTrade.ETHUSDT\"],\"op\":\"subscribe\"}"))
+[2m2025-09-01T05:14:35.213416Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mOkx [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m2 [3mpayload[0m[2m=[0mSubscribed
+[2m2025-09-01T05:14:35.213518Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mOkx [3msuccess_responses[0m[2m=[0m2 [3mexpected_responses[0m[2m=[0m2 [3mpayload[0m[2m=[0mSubscribed
+[2m2025-09-01T05:14:35.213547Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mOkx
+[2m2025-09-01T05:14:35.213567Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mOkx
+[2m2025-09-01T05:14:35.213742Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-Okx-public_trades
+[2m2025-09-01T05:14:35.215012Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mOkx [3mpayload[0m[2m=[0mping
+[2m2025-09-01T05:14:35.320386Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m received valid Ok subscription response [3mexchange[0m[2m=[0mBybitSpot [3msuccess_responses[0m[2m=[0m1 [3mexpected_responses[0m[2m=[0m1 [3mpayload[0m[2m=[0mBybitResponse { success: true, ret_msg: Subscribe }
+[2m2025-09-01T05:14:35.320439Z[0m [34mDEBUG[0m [2mbarter_data::subscriber::validator[0m[2m:[0m validated exchange WebSocket subscriptions [3mexchange[0m[2m=[0mBybitSpot
+[2m2025-09-01T05:14:35.320459Z[0m [34mDEBUG[0m [2mbarter_data::subscriber[0m[2m:[0m successfully initialised WebSocket stream with confirmed Subscriptions [3mexchange[0m[2m=[0mBybitSpot
+[2m2025-09-01T05:14:35.320568Z[0m [32m INFO[0m [2mmonitor_demo_improved[0m[2m:[0m ✅ 数据流初始化成功，开始监控...
+
+[2m2025-09-01T05:14:35.320618Z[0m [32m INFO[0m [2mmonitor_demo_improved[0m[2m:[0m 监控系统运行中... (运行时间: 60 秒)
+[2m2025-09-01T05:14:35.320634Z[0m [32m INFO[0m [2mbarter_data::streams::reconnect::stream[0m[2m:[0m successfully initialised Stream [3mattempt[0m[2m=[0m0 [3mstream_key[0m[2m=[0mmarket_stream-BybitSpot-public_trades
+
+================== 监控系统报告 ==================
+运行时间: 0 秒 | 总事件: 3 | 速率: 3.0 事件/秒
+错误统计: 0 个错误 | 0 个已过滤
+--------------------------------------------------
+📈 BTC/USDT - 价格: $107313.00 | 均量: 0.0100 | 总量: 0.03 | 交易: 3 | 波动: 0.000% | 异常: 0 (0.00%)
+--------------------------------------------------
+监控配置: 价格阈值 3.0% | 成交量倍数 5.0-20.0x | 动态阈值: 启用
+==================================================
+
+[2m2025-09-01T05:14:35.321956Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0m{"op":"ping"}
+[2m2025-09-01T05:14:35.337291Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("expected value", line: 1, column: 1) [3mpayload[0m[2m=[0mUtf8Bytes(b"pong") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-09-01T05:14:35.337589Z[0m [34mDEBUG[0m [2mmonitor_demo_improved[0m[2m:[0m Filtered known error: Socket("Deserialising JSON error: expected value at line 1 column 1 for payload: pong")
+[2m2025-09-01T05:14:35.443018Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("missing field `subscription_id`", line: 1, column: 94) [3mpayload[0m[2m=[0mUtf8Bytes(b"{\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-09-01T05:14:35.443269Z[0m [34mDEBUG[0m [2mmonitor_demo_improved[0m[2m:[0m Filtered known error: Socket("Deserialising JSON error: missing field `subscription_id` at line 1 column 94 for payload: {\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}")
+[2m2025-09-01T05:14:40.322580Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0m{"op":"ping"}
+[2m2025-09-01T05:14:40.448519Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("missing field `subscription_id`", line: 1, column: 94) [3mpayload[0m[2m=[0mUtf8Bytes(b"{\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-09-01T05:14:40.448804Z[0m [34mDEBUG[0m [2mmonitor_demo_improved[0m[2m:[0m Filtered known error: Socket("Deserialising JSON error: missing field `subscription_id` at line 1 column 94 for payload: {\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}")
+[2m2025-09-01T05:14:40.688574Z[0m [33m WARN[0m [2mmonitor_demo_improved[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.2730 (均值: 0.0051, 53.3倍)
+[2m2025-09-01T05:14:40.899123Z[0m [33m WARN[0m [2mmonitor_demo_improved[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 3.4220 (均值: 0.1826, 18.7倍)
+[2m2025-09-01T05:14:43.461317Z[0m [33m WARN[0m [2mmonitor_demo_improved[0m[2m:[0m 📊 成交量异常！Binance ETH/USDT 成交量 10.8580 (均值: 0.2554, 42.5倍)
+
+================== 监控系统报告 ==================
+运行时间: 10 秒 | 总事件: 1298 | 速率: 129.8 事件/秒
+错误统计: 0 个错误 | 3 个已过滤
+--------------------------------------------------
+[2m2025-09-01T05:14:45.322293Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0m{"op":"ping"}
+📈 ETH/USDT - 价格: $4371.59 | 均量: 0.4631 | 总量: 247.72 | 交易: 731 | 波动: 0.017% | 异常: 2 (0.27%)
+📈 BTC/USDT - 价格: $107349.92 | 均量: 0.0120 | 总量: 5.78 | 交易: 567 | 波动: 0.016% | 异常: 1 (0.18%)
+--------------------------------------------------
+监控配置: 价格阈值 3.0% | 成交量倍数 5.0-20.0x | 动态阈值: 启用
+==================================================
+
+[2m2025-09-01T05:14:45.443706Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("missing field `subscription_id`", line: 1, column: 94) [3mpayload[0m[2m=[0mUtf8Bytes(b"{\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-09-01T05:14:45.444021Z[0m [34mDEBUG[0m [2mmonitor_demo_improved[0m[2m:[0m Filtered known error: Socket("Deserialising JSON error: missing field `subscription_id` at line 1 column 94 for payload: {\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}")
+[2m2025-09-01T05:14:46.549530Z[0m [33m WARN[0m [2mmonitor_demo_improved[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.4090 (均值: 0.0141, 28.9倍)
+[2m2025-09-01T05:14:48.613896Z[0m [33m WARN[0m [2mmonitor_demo_improved[0m[2m:[0m 📊 成交量异常！Binance BTC/USDT 成交量 0.2470 (均值: 0.0138, 17.9倍)
+[2m2025-09-01T05:14:49.055837Z[0m [33m WARN[0m [2mmonitor_demo_improved[0m[2m:[0m ⚠️ 价格异常！Binance ETH/USDT 变化 100.00% ($4373.36 -> $0.00) [阈值: 14.61%]
+[2m2025-09-01T05:14:50.321830Z[0m [34mDEBUG[0m [2mbarter_data[0m[2m:[0m sending custom application-level ping to exchange [3mexchange[0m[2m=[0mBybitSpot [3mpayload[0m[2m=[0m{"op":"ping"}
+[2m2025-09-01T05:14:50.449943Z[0m [34mDEBUG[0m [2mbarter_integration::protocol::websocket[0m[2m:[0m failed to deserialize WebSocket Message into domain specific Message [3merror[0m[2m=[0mError("missing field `subscription_id`", line: 1, column: 94) [3mpayload[0m[2m=[0mUtf8Bytes(b"{\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}") [3maction[0m[2m=[0m"returning Some(Err(err))"
+[2m2025-09-01T05:14:50.450218Z[0m [34mDEBUG[0m [2mmonitor_demo_improved[0m[2m:[0m Filtered known error: Socket("Deserialising JSON error: missing field `subscription_id` at line 1 column 94 for payload: {\"success\":true,\"ret_msg\":\"pong\",\"conn_id\":\"1f6ad9f6-06cc-4fcb-80db-6923c934f674\",\"op\":\"ping\"}")
